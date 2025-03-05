@@ -33,3 +33,6 @@ gradio
 python-slugify
 imagesize
 pydantic==2.9.2
+websockets==13.0
+gradio==5.15.0
+gradio-client==1.7.0

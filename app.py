@@ -358,11 +358,11 @@ def download(base_model):
         hf_hub_download(repo_id="comfyanonymous/flux_text_encoders", local_dir=clip_folder, filename="clip_l.safetensors")
 
     # download t5xxl
-    t5xxl_path = os.path.join(clip_folder, "t5xxl_fp16.safetensors")
+    t5xxl_path = os.path.join(clip_folder, "t5xxl_fp8.safetensors")
     if not os.path.exists(t5xxl_path):
-        print(f"download t5xxl_fp16.safetensors")
+        print(f"download t5xxl_fp8.safetensors")
         gr.Info(f"Downloading t5xxl...")
-        hf_hub_download(repo_id="comfyanonymous/flux_text_encoders", local_dir=clip_folder, filename="t5xxl_fp16.safetensors")
+        hf_hub_download(repo_id="comfyanonymous/flux_text_encoders", local_dir=clip_folder, filename="t5xxl_fp8.safetensors")
 
 
 def resolve_path(p):
@@ -448,7 +448,7 @@ def gen_sh(
     pretrained_model_path = resolve_path(model_path)
 
     clip_path = resolve_path("models/clip/clip_l.safetensors")
-    t5_path = resolve_path("models/clip/t5xxl_fp16.safetensors")
+    t5_path = resolve_path("models/clip/t5xxl_fp8.safetensors")
     ae_path = resolve_path("models/vae/ae.sft")
     sh = f"""accelerate launch {line_break}
   --mixed_precision bf16 {line_break}
@@ -1116,4 +1116,4 @@ with gr.Blocks(elem_id="app", theme=theme, css=css, fill_width=True) as demo:
     refresh.click(update, inputs=listeners, outputs=[train_script, train_config, dataset_folder])
 if __name__ == "__main__":
     cwd = os.path.dirname(os.path.abspath(__file__))
-    demo.launch(debug=True, show_error=True, allowed_paths=[cwd])
+    demo.launch(debug=True, show_error=True, allowed_paths=[cwd], share=True)
